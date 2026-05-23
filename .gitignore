@@ -1,0 +1,17 @@
+# Rust build output
+/target
+**/target/
+
+# backup files from rustfmt
+**/*.rs.bk
+
+# desktop packaging artifacts
+*.AppImage
+apps/desktop/*.AppDir/
+
+# runtime workspace (whiteboards live in ~/Documents/Writee, but ignore any local copy)
+/Writee/
+
+# os / editor
+.DS_Store
+*.swp

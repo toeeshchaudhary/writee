@@ -1,0 +1,69 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/writee-core",
+    "crates/writee-render",
+    "crates/writee-input",
+    "crates/writee-app",
+    "crates/writee-export-web",
+    "apps/desktop",
+    "apps/android",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MPL-2.0"
+rust-version = "1.78"
+
+[workspace.dependencies]
+glyphon = "0.6"
+toml = "0.8"
+egui = "0.29"
+egui-wgpu = "0.29"
+egui-winit = { version = "0.29", default-features = false, features = ["wayland", "x11"] }
+android-activity = { version = "0.6", features = ["native-activity"] }
+android_logger = "0.14"
+ndk = "0.9"
+jni = "0.21"
+# Internal
+writee-core = { path = "crates/writee-core" }
+writee-render = { path = "crates/writee-render" }
+writee-input = { path = "crates/writee-input" }
+writee-app = { path = "crates/writee-app" }
+writee-export-web = { path = "crates/writee-export-web" }
+
+# Graphics / windowing
+wgpu = "22"
+winit = "0.30"
+pollster = "0.4"
+bytemuck = { version = "1.16", features = ["derive"] }
+glam = { version = "0.29", features = ["bytemuck", "serde"] }
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# Errors
+thiserror = "1"
+anyhow = "1"
+
+# Data / persistence
+rstar = "0.12"
+rusqlite = { version = "0.32", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Misc
+directories-next = "2"
+pulldown-cmark = { version = "0.12", default-features = false }
+fs2 = "0.4"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg"] }
+arboard = { version = "3", default-features = false, features = ["image-data"] }
+rfd = { version = "0.15", default-features = false, features = ["xdg-portal", "tokio"] }
+
+[profile.dev]
+opt-level = 1
+
+[profile.dev.package."*"]
+opt-level = 3
