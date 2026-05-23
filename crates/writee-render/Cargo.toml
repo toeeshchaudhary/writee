@@ -1,0 +1,18 @@
+[package]
+name = "writee-render"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+writee-core = { workspace = true }
+wgpu = { workspace = true }
+winit = { workspace = true }
+bytemuck = { workspace = true }
+glam = { workspace = true }
+glyphon = { workspace = true }
+egui = { workspace = true }
+egui-wgpu = { workspace = true }
+log = { workspace = true }
+thiserror = { workspace = true }
