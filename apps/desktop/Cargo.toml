@@ -1,0 +1,17 @@
+[package]
+name = "writee-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "writee"
+path = "src/main.rs"
+
+[dependencies]
+writee-app = { workspace = true }
+winit = { workspace = true }
+env_logger = { workspace = true }
+log = { workspace = true }
+anyhow = { workspace = true }

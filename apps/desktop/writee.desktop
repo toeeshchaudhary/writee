@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=writee
+GenericName=Whiteboard & Notes
+Comment=Cross-platform handwriting whiteboard with linked markdown notes
+Exec=writee %F
+Icon=writee
+Terminal=false
+Categories=Office;Graphics;Utility;
+Keywords=notes;whiteboard;canvas;handwriting;markdown;
+StartupWMClass=writee
+MimeType=application/x-writee;
