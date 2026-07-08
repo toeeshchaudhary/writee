@@ -1,20 +1,21 @@
 # writee
 
-A cross-platform handwriting whiteboard, written in Rust. Infinite canvas,
-pressure-sensitive pen, eraser, arrows for mindmapping, text, and
-selection — exported to a self-contained web folder when you want to share.
+> A cross-platform handwriting whiteboard in Rust — infinite canvas, pressure pen, self-contained web export.
 
-The UI is intentionally minimal: black, white, and a light dot grid.
+writee is a cross-platform handwriting whiteboard, written in Rust. Infinite canvas,
+pressure-sensitive pen, eraser, arrows for mindmapping, text, and selection — exported
+to a self-contained web folder when you want to share. The UI is intentionally minimal:
+black, white, and a light dot grid.
 
-## Running on desktop
+## Run it
 
 ```
 cargo run --release -p writee-desktop
 ```
 
-On first launch the app creates `~/Documents/Writee/` as its workspace and
-opens `default.writee` inside it. Each whiteboard is a SQLite file; you can
-sync the folder with anything (Syncthing, Dropbox, git-annex).
+On first launch the app creates `~/Documents/Writee/` as its workspace and opens
+`default.writee` inside it. Each whiteboard is a SQLite file; you can sync the folder
+with anything — Syncthing, Dropbox, git-annex.
 
 ## Tools
 
@@ -27,9 +28,9 @@ sync the folder with anything (Syncthing, Dropbox, git-annex).
 | Text        | `T`      | Click to place a text box; click again to edit |
 | Select      | `S`      | Click an object, drag to move; drag empty space to marquee-select |
 
-The toolbar at the top mirrors these and adds runtime sliders for stroke
-width, eraser radius, and text size, plus a **Pressure** checkbox that
-toggles pressure-sensitive width on/off.
+The toolbar at the top mirrors these and adds runtime sliders for stroke width, eraser
+radius, and text size, plus a **Pressure** checkbox that toggles pressure-sensitive width
+on/off.
 
 ## Canvas
 
@@ -54,29 +55,25 @@ toggles pressure-sensitive width on/off.
 
 Cargo workspace, five core crates plus the desktop/Android binaries:
 
-- `writee-core` — data model, stroke math (one-Euro filter, Catmull-Rom
-  resample, variable-width SDF tessellation), SQLite store with R-tree
-  spatial index.
-- `writee-render` — wgpu pipelines (dot grid, ink with per-vertex color &
-  SDF anti-aliasing, glyphon-backed text, egui chrome pass).
-- `writee-input` — `InkSample` abstraction over winit pointer/touch events
-  (pressure, tilt, tool-type, palm-rejection-friendly phases).
-- `writee-app` — winit `ApplicationHandler`, tool state machine, undo log,
-  workspace management, toolbar UI.
-- `writee-export-web` — emits a static-site viewer (HTML/CSS/JS) +
-  `doc.js` JSON payload.
+- `writee-core` — data model, stroke math (one-Euro filter, Catmull-Rom resample,
+  variable-width SDF tessellation), SQLite store with R-tree spatial index.
+- `writee-render` — wgpu pipelines (dot grid, ink with per-vertex color & SDF
+  anti-aliasing, glyphon-backed text, egui chrome pass).
+- `writee-input` — `InkSample` abstraction over winit pointer/touch events (pressure,
+  tilt, tool-type, palm-rejection-friendly phases).
+- `writee-app` — winit `ApplicationHandler`, tool state machine, undo log, workspace
+  management, toolbar UI.
+- `writee-export-web` — emits a static-site viewer (HTML/CSS/JS) + `doc.js` JSON payload.
 
-Renderer details: one shared `Viewport` uniform; ink and grid pipelines
-share it. Ink vertices are `(pos, signed_offset, half_width, color)` so
-the fragment shader can render any color with proper SDF-based AA. The
-committed document is tessellated into a cache that the App invalidates on
-every mutation; only the wet stroke + selection overlay is re-tessellated
-per frame.
+Renderer details: one shared `Viewport` uniform; ink and grid pipelines share it. Ink
+vertices are `(pos, signed_offset, half_width, color)` so the fragment shader can render
+any color with proper SDF-based AA. The committed document is tessellated into a cache
+that the App invalidates on every mutation; only the wet stroke + selection overlay is
+re-tessellated per frame.
 
 ## Web export
 
-`Ctrl+E` (or the toolbar **Export** button) writes a folder next to your
-`.writee`:
+`Ctrl+E` (or the toolbar **Export** button) writes a folder next to your `.writee`:
 
 ```
 default-export/
@@ -86,21 +83,22 @@ default-export/
   doc.js          # window.WRITEE_DOC = {...}
 ```
 
-Open `index.html` directly in any browser — no server, no dependencies.
-Pan/zoom/pinch supported. The viewer re-runs the same Catmull-Rom +
-variable-width algorithm as the editor, so strokes match.
+Open `index.html` directly in any browser — no server, no dependencies. Pan/zoom/pinch
+supported. The viewer re-runs the same Catmull-Rom + variable-width algorithm as the
+editor, so strokes match.
 
 ## Android
 
-The `apps/android` crate is a scaffold (cdylib + `android_main`). It builds
-on a host as an empty stub; producing an APK requires the Android NDK and
-either `cargo install cargo-apk` or `cargo install xbuild`. See
-`apps/android/README.md` for build steps and the list of known gaps the
-first device run needs to address (palm rejection, SAF picker, etc.).
+The `apps/android` crate is a scaffold (cdylib + `android_main`). It builds on a host as
+an empty stub; producing an APK requires the Android NDK and either `cargo install
+cargo-apk` or `cargo install xbuild`. See `apps/android/README.md` for build steps and
+the list of known gaps the first device run needs to address — palm rejection, SAF
+picker, etc.
 
 ## Status
 
-Tests pass on desktop (host build). Stroke quality has been tuned but
-benefits from a tablet in hand — the relevant knobs (`mincutoff`, `beta`,
-`PRESSURE_GAMMA`, `MIN_HALF_WIDTH`) live in
-`crates/writee-core/src/{one_euro.rs,tessellate.rs}`.
+Tests pass on desktop (host build). Stroke quality has been tuned but benefits from a
+tablet in hand — the relevant knobs (`mincutoff`, `beta`, `PRESSURE_GAMMA`,
+`MIN_HALF_WIDTH`) live in `crates/writee-core/src/{one_euro.rs,tessellate.rs}`.
+
+Built by [toeesh](https://github.com/toeeshchaudhary) · MIT licensed
